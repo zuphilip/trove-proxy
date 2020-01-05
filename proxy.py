@@ -14,8 +14,8 @@ def get_url(url):
         except HTTPError as e:
             abort(e.code)
         except URLError as e:
-            print 'We failed to reach a server.'
-            print 'Reason: ', e.reason
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
         return response
 
 
@@ -27,7 +27,7 @@ def ping_pdf(ping_url):
     except HTTPError as e:
         if e.code == 423:
             ready = False
-            print 'LOCKED'
+            print('LOCKED')
         else:
             raise
     else:
