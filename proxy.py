@@ -1,7 +1,8 @@
 from flask import Flask, abort, request, Response, render_template
-from urllib2 import urlopen, Request, HTTPError, URLError
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError, URLError
 import time
-import urlparse
+import urllib.parse
 
 app = Flask(__name__)
 
@@ -14,8 +15,8 @@ def get_url(url):
         except HTTPError as e:
             abort(e.code)
         except URLError as e:
-            print 'We failed to reach a server.'
-            print 'Reason: ', e.reason
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
         return response
 
 
@@ -27,7 +28,7 @@ def ping_pdf(ping_url):
     except HTTPError as e:
         if e.code == 423:
             ready = False
-            print 'LOCKED'
+            print('LOCKED')
         else:
             raise
     else:
@@ -67,7 +68,7 @@ def pdf(id):
 
 @app.route('/api/list/<id>')
 def list_proxy(id):
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/list/{}?{}'.format(id, query)
     response = get_url(api_url)
@@ -76,7 +77,7 @@ def list_proxy(id):
 
 @app.route('/api/newspaper/<id>')
 def newspaper_proxy(id):
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/newspaper/{}?{}'.format(id, query)
     response = get_url(api_url)
@@ -85,7 +86,7 @@ def newspaper_proxy(id):
 
 @app.route('/api/work/<id>')
 def work_proxy(id):
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/work/{}?{}'.format(id, query)
     response = get_url(api_url)
@@ -94,7 +95,7 @@ def work_proxy(id):
 
 @app.route('/api/newspaper/title/<id>')
 def title_proxy(id):
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/newspaper/title/{}?{}'.format(id, query)
     response = get_url(api_url)
@@ -103,7 +104,7 @@ def title_proxy(id):
 
 @app.route('/api/newspaper/titles')
 def titles_proxy():
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/newspaper/titles?{}'.format(query)
     response = get_url(api_url)
@@ -112,7 +113,7 @@ def titles_proxy():
 
 @app.route('/api/contributor/<id>')
 def contributor_proxy(id):
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/contributor/{}?{}'.format(id, query)
     response = get_url(api_url)
@@ -121,7 +122,7 @@ def contributor_proxy(id):
 
 @app.route('/api/contributor')
 def contributors_proxy():
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/contributor?{}'.format(query)
     response = get_url(api_url)
@@ -130,7 +131,7 @@ def contributors_proxy():
 
 @app.route('/api/result')
 def search_proxy():
-    parsed_url = urlparse.urlsplit(request.url)
+    parsed_url = urllib.parse.urlsplit(request.url)
     query = parsed_url.query
     api_url = 'http://api.trove.nla.gov.au/result?{}'.format(query)
     response = get_url(api_url)
